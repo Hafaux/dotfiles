@@ -1,6 +1,6 @@
 # dotfiles
 
-My macOS dotfiles: nvim, yabai, skhd, zsh, git.
+My macOS dotfiles: nvim, yabai, skhd, zsh, git, ghostty.
 
 ![install](.demo/demo.gif)
 

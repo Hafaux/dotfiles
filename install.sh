@@ -15,7 +15,7 @@ fi
 gum style \
     --foreground 212 --border-foreground 212 --border double \
     --align center --width 50 --margin "1 2" --padding "1 2" \
-    '✨ Dotfiles Installer ✨'
+    'Dotfiles Installer'
 
 echo ""
 gum style --foreground 240 "Installing from: $DOTFILES_DIR"
@@ -62,13 +62,14 @@ backup_and_link "$DOTFILES_DIR/yabai/yabairc" "$HOME/.yabairc" "yabai"
 backup_and_link "$DOTFILES_DIR/skhd/skhdrc" "$HOME/.skhdrc" "skhd"
 backup_and_link "$DOTFILES_DIR/zsh/zshrc" "$HOME/.zshrc" "zsh"
 backup_and_link "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig" "git"
+backup_and_link "$DOTFILES_DIR/ghostty/config" "$HOME/.config/ghostty/config" "ghostty"
 
 echo ""
 
 if [[ -d "$BACKUP_DIR" ]]; then
-    gum style --foreground 214 "📦 Backups: $BACKUP_DIR"
+    gum style --foreground 214 "Backups: $BACKUP_DIR"
     echo ""
 fi
 
-gum style --foreground 82 --bold "✓ Done!"
+gum style --foreground 82 --bold "Done!"
 echo ""

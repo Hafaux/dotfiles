@@ -1,0 +1,6 @@
+# theme = Catppuccin Macchiato
+theme = 0x96f
+macos-titlebar-style = tabs
+font-size = 18
+background-opacity = 1
+keybind = shift+enter=text:\x1b\r
