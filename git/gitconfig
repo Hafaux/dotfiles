@@ -1,0 +1,8 @@
+[core]
+	pager = cat
+[user]
+	email = nikst0r1963@gmail.com
+	name = Konstantin Tolis
+[alias]
+	ac = !git add -A && git commit -m
+	co = !git checkout

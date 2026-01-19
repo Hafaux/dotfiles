@@ -1,0 +1,52 @@
+# ---------------------------
+# WINDOW FOCUS (move between windows)
+# ---------------------------
+alt - h : yabai -m window --focus west
+alt - j : yabai -m window --focus south
+alt - k : yabai -m window --focus north
+alt - l : yabai -m window --focus east
+
+# ---------------------------
+# SWAP WINDOWS
+# ---------------------------
+shift + alt - h : yabai -m window --swap west
+shift + alt - j : yabai -m window --swap south
+shift + alt - k : yabai -m window --swap north
+shift + alt - l : yabai -m window --swap east
+
+# ---------------------------
+# RESIZE WINDOWS
+# ---------------------------
+ctrl + alt - h : yabai -m window --resize left:-40:0 || yabai -m window --resize right:-40:0
+ctrl + alt - l : yabai -m window --resize right:40:0 || yabai -m window --resize left:40:0
+ctrl + alt - j : yabai -m window --resize bottom:0:40 || yabai -m window --resize top:0:40
+ctrl + alt - k : yabai -m window --resize top:0:-40 || yabai -m window --resize bottom:0:-40
+
+# ---------------------------
+# SPACE SWITCHING (workspace)
+# ---------------------------
+alt - 1 : yabai -m space --focus 1
+alt - 2 : yabai -m space --focus 2
+alt - 3 : yabai -m space --focus 3
+alt - 4 : yabai -m space --focus 4
+
+# ---------------------------
+# SEND WINDOW TO SPACE
+# ---------------------------
+shift + alt - 1 : yabai -m window --space 1
+shift + alt - 2 : yabai -m window --space 2
+shift + alt - 3 : yabai -m window --space 3
+shift + alt - 4 : yabai -m window --space 4
+
+# ---------------------------
+# HELP
+# ---------------------------
+cmd - 0x2C : ~/.config/skhd/help.sh
+
+# ---------------------------
+# OPEN APPS
+# ---------------------------
+cmd - return : open -a "Ghostty"
+cmd - b : open -a "Brave Browser"
+cmd - e : open -a "Cursor"
+cmd - m : open -a "Spotify"
