@@ -5,6 +5,10 @@ DOTFILES_DIR="$(dirname "$DEMO_DIR")"
 
 cd "$DOTFILES_DIR"
 
+# Check dependencies
+command -v asciinema &>/dev/null || { echo "asciinema not found. brew install asciinema"; exit 1; }
+command -v agg &>/dev/null || { echo "agg not found. brew install agg"; exit 1; }
+
 # Remove symlinks for fresh demo
 rm -f ~/.config/nvim/init.lua ~/.yabairc ~/.skhdrc ~/.zshrc ~/.gitconfig ~/.config/ghostty/config 2>/dev/null
 
