@@ -107,9 +107,17 @@ alias vim="nvim"
 alias ls="eza -l --icons=always --no-user --no-time -a"
 alias cd="z"
 eval "$(zoxide init zsh)"
-alias zshrc="nvim ~/.zshrc"
 alias cat="bat"
-alias skhdrc="nvim ~/.skhdrc"
+alias gs="git status"
+
+# dotfiles
+DOTFILES="$HOME/code/dotfiles"
+alias zshrc="nvim $DOTFILES/zsh/zshrc"
+alias ghostrc="nvim $DOTFILES/ghostty/config"
+alias nvimrc="nvim $DOTFILES/nvim/init.lua"
+alias skhdrc="nvim $DOTFILES/skhd/skhdrc"
+alias yabairc="nvim $DOTFILES/yabai/yabairc"
+alias gitrc="nvim $DOTFILES/git/gitconfig"
 alias cc="claude --dangerously-skip-permissions"
 
 # bun completions
