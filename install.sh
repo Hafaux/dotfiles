@@ -5,10 +5,10 @@ set -e
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKUP_DIR="$HOME/.dotfiles_backup/$(date +%Y%m%d_%H%M%S)"
 
-# Check for gum
+# Check for gum, install if missing
 if ! command -v gum &> /dev/null; then
-    echo "gum not found. Install with: brew install gum"
-    exit 1
+    echo "Installing gum..."
+    brew install gum
 fi
 
 # Header
@@ -22,7 +22,7 @@ gum style --foreground 240 "Installing from: $DOTFILES_DIR"
 echo ""
 
 # Confirm
-gum confirm "Ready to install dotfiles?" || exit 0
+gum confirm --default --timeout="${GUM_CONFIRM_TIMEOUT:-0s}" "Ready to install dotfiles?" || exit 0
 
 echo ""
 
