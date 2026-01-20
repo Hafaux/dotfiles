@@ -20,6 +20,7 @@ CONFIGS=(
     "git/gitconfig|$HOME/.gitconfig|git"
     "ghostty/config|$HOME/.config/ghostty/config|ghostty"
     "tmux/tmux.conf|$HOME/.tmux.conf|tmux"
+    "bin/tmux-sessionizer|$HOME/bin/tmux-sessionizer|tmux-sessionizer"
 )
 
 # Check link status
@@ -114,6 +115,9 @@ if [[ -d "$BACKUP_DIR" ]]; then
     gum style --foreground 214 "Backups: $BACKUP_DIR"
     echo ""
 fi
+
+# Make scripts executable
+chmod +x "$HOME/bin/tmux-sessionizer" 2>/dev/null || true
 
 gum style --foreground 82 --bold "Done!"
 echo ""

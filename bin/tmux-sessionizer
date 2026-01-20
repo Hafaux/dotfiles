@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Directories to search for projects
+SEARCH_DIRS=(~/code ~/projects)
+
+# Build find command for existing dirs only
+dirs=()
+for d in "${SEARCH_DIRS[@]}"; do
+    [[ -d "$d" ]] && dirs+=("$d")
+done
+
+if [[ ${#dirs[@]} -eq 0 ]]; then
+    echo "No project directories found"
+    exit 1
+fi
+
+# Allow passing directory as argument, otherwise use fzf
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(find "${dirs[@]}" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | fzf)
+fi
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+selected_name=$(basename "$selected" | tr . _)
+
+# Create session if it doesn't exist
+if ! tmux has-session -t="$selected_name" 2>/dev/null; then
+    tmux new-session -ds "$selected_name" -c "$selected"
+fi
+
+# Attach or switch
+if [[ -z $TMUX ]]; then
+    tmux attach -t "$selected_name"
+else
+    tmux switch-client -t "$selected_name"
+fi

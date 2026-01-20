@@ -6,3 +6,5 @@
 [alias]
 	ac = !git add -A && git commit -m
 	co = !git checkout
+  acane = !git commit --amend --no-edit
+  pfl = !git push --force-with-lease
