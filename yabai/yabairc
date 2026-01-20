@@ -38,5 +38,6 @@ yabai -m rule --add app="^Finder$" manage=off
 yabai -m rule --add app="^QuickTime Player$" manage=off
 yabai -m rule --add app="^Preview$" manage=off
 yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^Notes$" manage=off
 
 echo "yabai configuration loaded.."
