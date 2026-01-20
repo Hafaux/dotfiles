@@ -11,18 +11,67 @@ if ! command -v gum &> /dev/null; then
     brew install gum
 fi
 
-# Header
-gum style \
-    --foreground 212 --border-foreground 212 --border double \
-    --align center --width 50 --margin "1 2" --padding "1 2" \
-    'Dotfiles Installer'
+# Define configs: source|target|name
+CONFIGS=(
+    "nvim/init.lua|$HOME/.config/nvim/init.lua|nvim"
+    "yabai/yabairc|$HOME/.yabairc|yabai"
+    "skhd/skhdrc|$HOME/.skhdrc|skhd"
+    "zsh/zshrc|$HOME/.zshrc|zsh"
+    "git/gitconfig|$HOME/.gitconfig|git"
+    "ghostty/config|$HOME/.config/ghostty/config|ghostty"
+    "tmux/tmux.conf|$HOME/.tmux.conf|tmux"
+)
 
-echo ""
-gum style --foreground 240 "Installing from: $DOTFILES_DIR"
-echo ""
+# Check link status
+check_status() {
+    local source="$DOTFILES_DIR/$1"
+    local target="$2"
+    if [[ -L "$target" && "$(readlink "$target")" == "$source" ]]; then
+        return 0  # linked
+    fi
+    return 1  # not linked
+}
+
+
+# Check all configs and build lists
+LINKED=()
+NOT_LINKED=()
+
+for config in "${CONFIGS[@]}"; do
+    IFS='|' read -r source target name <<< "$config"
+    if check_status "$source" "$target"; then
+        LINKED+=("$name")
+    else
+        NOT_LINKED+=("$name")
+    fi
+done
+
+# Display status
+if [[ ${#LINKED[@]} -gt 0 ]]; then
+    gum style --foreground 240 "Already linked:"
+    for name in "${LINKED[@]}"; do
+        gum style --foreground 240 "  ○ $name"
+    done
+    echo ""
+fi
+
+if [[ ${#NOT_LINKED[@]} -gt 0 ]]; then
+    gum style --foreground 212 "Not linked:"
+    for name in "${NOT_LINKED[@]}"; do
+        gum style --foreground 212 "  ● $name"
+    done
+    echo ""
+fi
+
+# Exit early if everything is linked
+if [[ ${#NOT_LINKED[@]} -eq 0 ]]; then
+    gum style --foreground 82 --bold "All dotfiles already linked!"
+    echo ""
+    exit 0
+fi
 
 # Confirm
-gum confirm --default --timeout="${GUM_CONFIRM_TIMEOUT:-0s}" "Ready to install dotfiles?" || exit 0
+gum confirm --default --timeout="${GUM_CONFIRM_TIMEOUT:-0s}" "Link ${#NOT_LINKED[@]} config(s)?" || exit 0
 
 echo ""
 
@@ -38,11 +87,6 @@ backup_and_link() {
     # Handle existing file/symlink
     if [[ -e "$target" || -L "$target" ]]; then
         if [[ -L "$target" ]]; then
-            local current_link="$(readlink "$target")"
-            if [[ "$current_link" == "$source" ]]; then
-                gum style --foreground 240 "  ○ $name (already linked)"
-                return
-            fi
             rm "$target"
         else
             mkdir -p "$BACKUP_DIR"
@@ -54,15 +98,15 @@ backup_and_link() {
     gum style --foreground 212 "  ● $name"
 }
 
-# Install configs
+# Install only unlinked configs
 gum spin --spinner dot --title "Linking configs..." -- sleep 0.5
 
-backup_and_link "$DOTFILES_DIR/nvim/init.lua" "$HOME/.config/nvim/init.lua" "nvim"
-backup_and_link "$DOTFILES_DIR/yabai/yabairc" "$HOME/.yabairc" "yabai"
-backup_and_link "$DOTFILES_DIR/skhd/skhdrc" "$HOME/.skhdrc" "skhd"
-backup_and_link "$DOTFILES_DIR/zsh/zshrc" "$HOME/.zshrc" "zsh"
-backup_and_link "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig" "git"
-backup_and_link "$DOTFILES_DIR/ghostty/config" "$HOME/.config/ghostty/config" "ghostty"
+for config in "${CONFIGS[@]}"; do
+    IFS='|' read -r source target name <<< "$config"
+    if ! check_status "$source" "$target"; then
+        backup_and_link "$DOTFILES_DIR/$source" "$target" "$name"
+    fi
+done
 
 echo ""
 
